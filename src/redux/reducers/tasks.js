@@ -1,6 +1,7 @@
 const ADD = 'ADD';
 const DEL = 'DEL';
 const IMP = 'IMP'
+const DONE = 'DONE';
 
 const initialState = {
 	todos: [{
@@ -46,6 +47,17 @@ export default (state = initialState, action) => {
 				})
 			}
 		}
+		case DONE: {
+			return {
+				...state,
+				todos: state.todos.map((item) => {
+					if (item.id === action.id) {
+						return { ...item, isDone: !item.isDone }
+					}
+					return item;
+				})
+			}
+		}
 		default: return state;
 	}
 };
@@ -65,5 +77,10 @@ export const deleteTask = (id) => {
 export const doImportant = (id) => {
 	return (dispatch) => {
 		return dispatch({ type: IMP, id })
+	}
+};
+export const doDone = (id) => {
+	return (dispatch) => {
+		return dispatch({ type: DONE, id })
 	}
 };
